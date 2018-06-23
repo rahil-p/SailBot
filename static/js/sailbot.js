@@ -24,6 +24,8 @@ function Boat() {
   this.cumScore = 0
   this.cumDests = 0
 
+  this.brain = new aNN(10,8,2)
+
   this.img = loadImage("images/boat.png")
 
   this.show = function() {
@@ -301,6 +303,18 @@ function Boat() {
     this.boatVelocity -= this.resistanceAccel / 60
 
     this.boatVelocity = max(-.03, this.boatVelocity) // ad hoc adjustment
+
+    function think(brain, input) {
+      decision = brain.predict(input)
+      return decision
+    }
+
+    this.input = [this.x, this.y,
+                  this.mainSheetLength, this.mainAttack2,
+                  this.boatAttack, this.boatAngle,
+                  this.boatVelocity, this.boatAccel,
+                  destX, destY]
+    this.decision = think(this.brain, this.input)
   }
 
   this.rotateBoat = function() {

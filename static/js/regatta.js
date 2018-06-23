@@ -5,12 +5,13 @@ function Regatta() {
   this.x = random(limit, width - limit)
   this.y = random(limit, .5 * height)
   this.radius = 40
-  this.ttime = 0
   this.time = 0
   this.index = 1
   this.trigger = false
 
   this.show = function() {
+
+    text("time: "+this.time, 200, 500)
 
     push()
     textSize(54)
@@ -20,7 +21,7 @@ function Regatta() {
     pop()
 
     push()
-    if (this.ttime % 120 <= 60) {
+    if (this.time % 120 <= 60) {
       stroke(138, 14, 14, 90)
     } else {
       stroke(138, 14, 14, 50)
@@ -31,52 +32,30 @@ function Regatta() {
 
   }
 
-  this.update = function() {
+  this.update = function(stop) {
+    if (stop == 1) {
 
-    this.ttime ++
-    this.time ++
+      let x = dest.x
+      let y = dest.y
+      let limit = 200
 
-    if (this.trigger == true) {
+      while (dist(dest.x, dest.y, x, y) < dest.radius*4) {
 
-      this.x = x
-      this.y = y
-      this.index ++
-      this.time = 0
-      this.trigger = false
+        x = random(limit, width - limit)
+        y = random(limit, height - limit)
 
-    }
-  }
-}
+      }
 
-function checkRegatta(timeCutoff, nCutoff) {
-  let boatsCopy = Object.create(boats)
+      dest = new Regatta()
+      dest.x = x;
+      dest.y = y;
 
-  if (dest.time >= timeCutoff) {
-    if (boats.complete.length < nCutoff) {
-
-      boatsCopy.sort(function(a, b) {
-        return a.midBowDist - b.midBowDist
-      })
-
-      winners = boats.complete
-      winners = winners.concat(boatsCopy.slice(0, nCutoff-boatsCopy.complete.length))
+      regattaCounter ++
 
     } else {
-      winners = boats.complete.slice(0, nCutoff)
-
+      this.time ++
     }
-
-    return [winners, 1]
-
-  } else if (boats.complete.length >= nCutoff) {
-
-    winners = boats.complete.slice(0, nCutoff)
-    return [winners, 1]
-
-  } else {
-
-    return [boats.complete, 0]
-
   }
+
 
 }
