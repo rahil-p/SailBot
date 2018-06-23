@@ -51,7 +51,7 @@ function gen() {
       }
     }
 
-    [this.complete, this.stop] = checkRegatta(600, 4, this, destTime)
+    [this.complete, this.stop] = checkRegatta(200, 4, this, destTime)
 
     function killBoats(genComplete) {
       let boats = genComplete
@@ -72,9 +72,9 @@ function gen() {
         }
 
         if (i > 0) {
+          oldBrain = boats[i].brain.clone()
           boats[i] = Object.create(boats[0])
-
-          //assign old brains
+          boats[i].brain = oldBrain
         }
 
         boats[i].cumDests = 0
@@ -85,11 +85,20 @@ function gen() {
       [this.boats, this.complete] = killBoats(this.complete)
       resetBoats(this.boats, destX, destY)
 
+    function reproduce(boats) {
+      function crossover() {
+        for (let i = 0; i < boats.length; i++) {
 
+        }
+      }
+
+      function mutate() {
+
+      }
+    }
 
       //reproduce (mutation/crossover) & introduce the new gen to boats array
 
-            //create brains (TF ANNs) with randomized brains
 
 
 

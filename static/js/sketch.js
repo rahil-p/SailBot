@@ -30,11 +30,6 @@ function draw() {
 
   background(201, 211, 226)
 
-  if (mouseIsPressed) {
-    gen.boats[2].rotateBoat()
-  }
-
-
   let data = []
 
   gen.show(wind.windVelocity, wind.windAngle,

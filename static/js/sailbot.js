@@ -130,7 +130,15 @@ function Boat() {
 
     [this.appVelocity, this.appAngle] = getAppVector(this.boatVelocity, this.boatAngle, windVelocity, windAngle)
 
-    this.mainSheetLength = (1000 - mouseY) * (mainSheetLimit / 1000)
+
+
+////////
+    // this.mainSheetLength = (1000 - mouseY) * (mainSheetLimit / 1000)
+
+////////
+
+
+
     //rotating the mainsail on the boat
     function rotateMainsail(appAngle, appVelocity, boatAngle, mainAngle, mainLength, mainSheetLength) {
 
@@ -315,14 +323,27 @@ function Boat() {
                   this.boatVelocity, this.boatAccel,
                   destX, destY]
     this.decision = think(this.brain, this.input)
-  }
 
-  this.rotateBoat = function() {
+    function interpretDecision(decision, mainSheetLimit) {
+      angleDecision = decision[0]
+      sheetDecision = decision[1] * mainSheetLimit
 
-    if (mouseX < width / 2) {
-      this.boatAngle = angleMod(this.boatAngle -= PI/45 * this.boatVelocity)
-    } else if (mouseX > width / 2) {
-      this.boatAngle = angleMod(this.boatAngle += PI/45 * this.boatVelocity)
+      if (angleDecision < .4) {
+        angleDecision = -1
+      } else if (angleDecision > .6) {
+        angleDecision = 1
+      } else {
+        angleDecision = 0
+      }
+
+      return [angleDecision, sheetDecision]
     }
+
+    [this.angleDecision, this.sheetDecision] = interpretDecision(this.decision, mainSheetLimit)
+
+    this.mainSheetLength = this.sheetDecision
+    this.boatAngle = angleMod(this.boatAngle += PI/45 * this.boatVelocity * this.angleDecision)
+
   }
+
 }
