@@ -29,7 +29,6 @@ function Boat() {
   this.img = loadImage("images/boat.png")
 
   this.show = function() {
-    text('Wind Angle:  ' + round(this.midBowDist), 100, 68)
 
     let tintLvl = .5
 
@@ -129,14 +128,6 @@ function Boat() {
     }
 
     [this.appVelocity, this.appAngle] = getAppVector(this.boatVelocity, this.boatAngle, windVelocity, windAngle)
-
-
-
-////////
-    // this.mainSheetLength = (1000 - mouseY) * (mainSheetLimit / 1000)
-
-////////
-
 
 
     //rotating the mainsail on the boat

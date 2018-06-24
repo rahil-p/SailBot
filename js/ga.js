@@ -51,7 +51,8 @@ function gen() {
       }
     }
 
-    [this.complete, this.stop] = checkRegatta(200, 4, this, destTime)
+    this.nCutoff = 4;
+    [this.complete, this.stop] = checkRegatta(50, this.nCutoff, this, destTime)
 
     function killBoats(genComplete) {
       let boats = genComplete
@@ -73,34 +74,43 @@ function gen() {
 
         if (i > 0) {
           oldBrain = boats[i].brain.clone()
+          oldID = boats[i].id
           boats[i] = Object.create(boats[0])
           boats[i].brain = oldBrain
+          boats[i].id = oldID
         }
 
         boats[i].cumDests = 0
       }
     }
 
+    function reproduce(boats, nCutoff) {
+
+      let newBoats = new Array(nCutoff)
+      function rep_crossover() {
+        for (let i = 0; i < boats.length; i++) {
+          newBoats[i] = Object.create(boats[i])
+          newBoats[i].id = (regattaCounter+1) + "." + String(i)
+        }
+      }
+      rep_crossover()
+
+      function rep_mutate() {
+        for (let i = 0; i < newBoats.length; i++) {
+          newBoats[i].brain.mutate(.9)
+        }
+      }
+      rep_mutate()
+
+      nextGen = boats.concat(newBoats)
+      return nextGen
+    }
+
     if (this.stop == 1) {
       [this.boats, this.complete] = killBoats(this.complete)
       resetBoats(this.boats, destX, destY)
 
-    function reproduce(boats) {
-      function crossover() {
-        for (let i = 0; i < boats.length; i++) {
-
-        }
-      }
-
-      function mutate() {
-
-      }
-    }
-
-      //reproduce (mutation/crossover) & introduce the new gen to boats array
-
-
-
+      this.boats = reproduce(this.boats, this.nCutoff)
 
     }
   }

@@ -11,13 +11,13 @@ function Regatta() {
 
   this.show = function() {
 
-    text("time: "+this.time, 200, 500)
+    text("time:  "+this.time, 920, 36)
 
     push()
     textSize(54)
     textAlign(RIGHT)
     fill(color(64,75))
-    text(this.index, 980, 976)
+    text(regattaCounter, 980, 976)
     pop()
 
     push()
@@ -32,14 +32,15 @@ function Regatta() {
 
   }
 
-  this.update = function(stop) {
+  this.update = function(stop, boat0) {
     if (stop == 1) {
 
       let x = dest.x
       let y = dest.y
+
       let limit = 200
 
-      while (dist(dest.x, dest.y, x, y) < dest.radius*4) {
+      while (dist(x, y, boat0.x, boat0.y) < dest.radius*4 || dist(x, y, dest.x, dest.y) < dest.radius*4) {
 
         x = random(limit, width - limit)
         y = random(limit, height - limit)
