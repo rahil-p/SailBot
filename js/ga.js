@@ -52,7 +52,7 @@ function gen() {
     }
 
     this.nCutoff = 4;
-    [this.complete, this.stop] = checkRegatta(50, this.nCutoff, this, destTime)
+    [this.complete, this.stop] = checkRegatta(300, this.nCutoff, this, destTime)
 
     function killBoats(genComplete) {
       let boats = genComplete

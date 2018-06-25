@@ -41,7 +41,7 @@ function aNN(input, hidden, output) {
   this.mutate = function(rate) {
     function mutate(val) {
       if (random() < rate) {
-        return random() * 2 - 1
+        return val + randomGaussian(0, 0.1)//random() * 2 - 1
       } else {
         return val
       }
