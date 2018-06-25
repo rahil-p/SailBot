@@ -10,7 +10,6 @@ function preload() {
 }
 
 function setup() {
-
   createCanvas(1000, 1000)
   frameRate(60)
 
@@ -18,35 +17,25 @@ function setup() {
   textSize(11)
 
   regattaCounter = 1
-
   gen = new gen()
   wind = new Wind()
   dest = new Regatta()
-
-
 }
 
 function draw() {
-
   background(201, 211, 226)
 
   let data = []
 
   gen.show(wind.windVelocity, wind.windAngle,
            dest.x, dest.y, dest.radius, dest.index)
-  console.log(gen.boats)
-
+  console.log(gen.boats[0].decision);
   wind.update()
   wind.show()
-
   dest.update(gen.stop, gen.boats[0])
   dest.show()
-
   gen.update(dest.time, dest.x, dest.y)
-
 }
-
-
 
 function placeRound(measure, nDigits = 2) {
   let rounded = round(measure * pow(10, nDigits)) / pow(10, nDigits)

@@ -11,7 +11,6 @@ function aNN(input, hidden, output) {
   this.outputBias = tf.randomNormal([this.hiddenNodes, this.outputNodes])
 
   this.predict = function(input) {
-
     let output
     tf.tidy(() => {
       let inputLayer = tf.tensor(input, [1, this.inputNodes])
@@ -36,7 +35,6 @@ function aNN(input, hidden, output) {
     nnClone.outputBias = tf.clone(this.outputBias)
     return nnClone
   }
-
 
   this.mutate = function(rate) {
     function mutate(val) {

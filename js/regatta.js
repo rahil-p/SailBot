@@ -10,7 +10,6 @@ function Regatta() {
   this.trigger = false
 
   this.show = function() {
-
     text("time:  "+this.time, 920, 36)
 
     push()
@@ -29,34 +28,25 @@ function Regatta() {
     fill(0, 0, 0, 0)
     ellipse(this.x, this.y, 2 * this.radius, 2 * this.radius)
     pop()
-
   }
 
   this.update = function(stop, boat0) {
     if (stop == 1) {
-
       let x = dest.x
       let y = dest.y
-
       let limit = 200
 
       while (dist(x, y, boat0.x, boat0.y) < dest.radius*4 || dist(x, y, dest.x, dest.y) < dest.radius*4) {
-
         x = random(limit, width - limit)
         y = random(limit, height - limit)
-
       }
 
       dest = new Regatta()
       dest.x = x;
       dest.y = y;
-
       regattaCounter ++
-
     } else {
       this.time ++
     }
   }
-
-
 }
