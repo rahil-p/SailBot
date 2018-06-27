@@ -29,7 +29,6 @@ function draw() {
 
   gen.show(wind.windVelocity, wind.windAngle,
            dest.x, dest.y, dest.radius, dest.index)
-  console.log(gen.boats[0].decision);
   wind.update()
   wind.show()
   dest.update(gen.stop, gen.boats[0])

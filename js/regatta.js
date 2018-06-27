@@ -2,7 +2,10 @@ function Regatta() {
 
   let limit = 200
 
-  this.x = random(limit, width - limit)
+  this.x = 500
+  while (this.x > 400 && this.x < 600) {
+    this.x = random(limit, width - limit)
+  }
   this.y = random(limit, .5 * height)
   this.radius = 40
   this.time = 0
@@ -36,7 +39,7 @@ function Regatta() {
       let y = dest.y
       let limit = 200
 
-      while (dist(x, y, boat0.x, boat0.y) < dest.radius*4 || dist(x, y, dest.x, dest.y) < dest.radius*4) {
+      while (dist(x, y, boat0.x, boat0.y) < dest.radius*6 || dist(x, y, dest.x, dest.y) < dest.radius*4) {
         x = random(limit, width - limit)
         y = random(limit, height - limit)
       }
@@ -45,6 +48,9 @@ function Regatta() {
       dest.x = x;
       dest.y = y;
       regattaCounter ++
+    } else if (stop == 2) {
+      dest = new Regatta()
+      regattaCounter = 1
     } else {
       this.time ++
     }

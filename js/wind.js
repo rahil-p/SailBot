@@ -1,6 +1,6 @@
 function Wind() {
 
-  this.windAngle = random(0, TWO_PI)                     //initial assignment to distribution uniform(0, 2pi)
+  this.windAngle = angleMod(HALF_PI - random(0, PI))      //initial assignment to distribution uniform(0, 2pi)
   this.windVelocity = max(0, randomGaussian(5,.5))        //initial assignment to distribution Normal(4, 2)
 
   this.show = function() {

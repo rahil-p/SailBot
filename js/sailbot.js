@@ -24,24 +24,23 @@ function Boat() {
   this.cumScore = 0
   this.cumDests = 0
 
-  this.brain = new aNN(4,4,3)
+  this.brain = new aNN(2,3,3,1,1)
+  this.color = color(255, 128)
 
   this.img = loadImage("images/boat.png")
 
   this.show = function() {
 
-    let tintLvl = .5
-
     // draw the hull (rotated by its stern)
     push()
     translate(this.x, this.y)
     rotate(this.boatAngle)
-    tint(255, tintLvl * 255)
+    tint(this.color)
     image(this.img, -(this.boatWidth / 2), -this.boatLength, this.boatWidth, this.boatLength)
 
     // draw the mainsail (rotated by its mast)
     push()
-    stroke(128, tintLvl * 255)
+    stroke(128, 128)
     translate(0, 10-this.boatLength)
     rotate(this.mainAngle)
     line(0, 0, 0, this.mainLength)
@@ -254,7 +253,7 @@ function Boat() {
 
     function get_inputs(boatX, boatY, boatAngle,
                         destX, destY, midSternDist,
-                        mainAttack2, boatVelocity) {
+                        mainAttack2, boatVelocity, boatAttack) {
       let destAngle
       if (boatX <= destX) {
         destAngle = acos(constrain((boatY - destY)/midSternDist, -1, 1))
@@ -271,16 +270,17 @@ function Boat() {
         destAttack = TWO_PI + destAngle - boatAngle
       }
 
-      function standardize_inputs(midSternDist, destAttack, mainAttack2, boatVelocity) {
-        stMSD = midSternDist/1000
+      function standardize_inputs(midSternDist, destAttack, boatVelocity, boatAttack, mainAttack2) {
+        stMSD = midSternDist/2000
         stDA = destAttack/TWO_PI
-        stMA2 = mainAttack2/TWO_PI
-        stBV = boatVelocity
-        return [stMSD, stDA, stMA2, stBV]
+        stMA2 = mainAttack2/PI
+        stBA = boatAttack/TWO_PI
+        stBV = Math.sign(boatVelocity)
+        return [stMSD, stDA, stBV, stBA, stMA2]
       }
-      [midSternDist, destAttack, mainAttack2, boatVelocity] = standardize_inputs(midSternDist, destAttack,
-                                                                                 mainAttack2, boatVelocity)
-      return [midSternDist, destAttack, mainAttack2, boatVelocity]
+      [midSternDist, destAttack, boatVelocity, boatAttack, mainAttack2] = standardize_inputs(midSternDist, destAttack,
+                                                                                             boatVelocity, boatAttack, mainAttack2)
+      return [midSternDist, destAttack, boatVelocity, boatAttack, mainAttack2]
     }
 
     function think(brain, input) {
@@ -289,24 +289,23 @@ function Boat() {
     }
 
     function interpretDecision(decision, mainSheetLimit) {
-      let sheetDecision = decision[1] * mainSheetLimit ////////////////////////////////////////////////////
+      let sheetDecision = decision[1][0] * mainSheetLimit
       let angleDecision
-      let max_choice = max(decision[0], decision[1], decision[2])
-      if (max_choice == decision[0]) {
+      let max_choice = max(decision[0][0], decision[0][1], decision[0][2])
+      if (max_choice == decision[0][0]) {
         angleDecision = 0
-      } else if (max_choice == decision[1]) {
+      } else if (max_choice == decision[0][1]) {
         angleDecision = 1
-      } else if (max_choice == decision[2]) {
+      } else if (max_choice == decision[0][2]) {
         angleDecision = -1
       }
 
       return [angleDecision, sheetDecision]
     }
 
-
     this.input = get_inputs(this.x, this.y, this.boatAngle,
-                             destX, destY, this.midSternDist,
-                             this.mainAttack2, this.boatVelocity)
+                            destX, destY, this.midSternDist,
+                            this.mainAttack2, this.boatVelocity, this.boatAttack);
     // this.input = [this.x, this.y,
     //               this.mainSheetLength, this.mainAttack2,
     //               this.boatAttack, this.boatAngle,
