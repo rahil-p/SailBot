@@ -58,7 +58,7 @@ function aNN(input, hidden, output, input2, output2) {
   this.mutate = function(rate) {
     function mutate(val) {
       if (random() < rate) {
-        return val + randomGaussian(0, 0.1)//random() * 2 - 1
+        return val + randomGaussian(0, 0.25)//random() * 2 - 1
       } else {
         return val
       }
@@ -111,7 +111,7 @@ function aNN(input, hidden, output, input2, output2) {
     let other = [hw_o, ow_o, hb_o, ob_o, ow2_o, ob2_o]
 
     // specific to this use case
-    for (i = 0; i < orig.length; i++) {
+    for (let i = 0; i < orig.length; i++) {
       r = random()
       if (r > .5) {
         orig[i] = other[i]

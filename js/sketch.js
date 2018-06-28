@@ -27,11 +27,11 @@ function draw() {
 
   let data = []
 
+  dest.update(gen.stop, gen.boats[0])
   gen.show(wind.windVelocity, wind.windAngle,
            dest.x, dest.y, dest.radius, dest.index)
   wind.update()
   wind.show()
-  dest.update(gen.stop, gen.boats[0])
   dest.show()
   gen.update(dest.time, dest.x, dest.y)
 }

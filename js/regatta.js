@@ -13,13 +13,18 @@ function Regatta() {
   this.trigger = false
 
   this.show = function() {
-    text("time:  "+this.time, 920, 36)
+    push()
+    fill(64,64,64,192)
+    text("time:  ", 916, 61)
+    textAlign(RIGHT)
+    text(this.time, 976, 61)
+    pop()
 
     push()
     textSize(54)
     textAlign(RIGHT)
     fill(color(64,75))
-    text(regattaCounter, 980, 976)
+    text(regattaCounter, 980, 47)
     pop()
 
     push()
@@ -34,6 +39,7 @@ function Regatta() {
   }
 
   this.update = function(stop, boat0) {
+
     if (stop == 1) {
       let x = dest.x
       let y = dest.y
@@ -43,11 +49,12 @@ function Regatta() {
         x = random(limit, width - limit)
         y = random(limit, height - limit)
       }
-
+      
       dest = new Regatta()
       dest.x = x;
       dest.y = y;
       regattaCounter ++
+
     } else if (stop == 2) {
       dest = new Regatta()
       regattaCounter = 1
